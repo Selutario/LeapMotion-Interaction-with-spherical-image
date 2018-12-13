@@ -85,6 +85,10 @@ public class MouseCamera : MonoBehaviour
         }
         if (left = (left_hand != null))
         {
+
+            
+            //Debug.Log("NORMAL: (" + normal[0] + ", " + normal[1] + ", " + normal[2] + ")");
+
             x_i = left_hand.PalmPosition.x;
             y_i = left_hand.PalmPosition.y;
             z_i = left_hand.PalmPosition.z;
@@ -92,6 +96,7 @@ public class MouseCamera : MonoBehaviour
 
             if (left_hand.GrabStrength >= 1)
                 closed_left = true;
+
         }
         if (left && right)
         {
@@ -104,7 +109,24 @@ public class MouseCamera : MonoBehaviour
             dist_anterior = distancia;
             //Debug.Log("DIST: " + diff_distancia);
             //Debug.Log("CAMARA_INI: " + camara_ini);
-            if (closed_left && closed_right)
+
+            Vector normal = left_hand.PalmNormal;
+            if (normal[1] > 0.8)
+            {
+                int extendedFingers = 0;
+                for (int i = 0; i < left_hand.Fingers.Count; i++)
+                {
+                    Finger digit = left_hand.Fingers[i];
+                    if (digit.IsExtended)
+                        extendedFingers++;
+                }
+                Debug.Log("DEDOS: " + extendedFingers);
+
+                if (extendedFingers == 2)
+                    GetComponent<Camera>().fieldOfView = camara_ini;
+
+            }
+            else if (closed_left && closed_right)
             {
                 float camara_actual = GetComponent<Camera>().fieldOfView - diff_distancia / 10;
 
