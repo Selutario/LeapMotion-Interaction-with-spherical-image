@@ -16,6 +16,7 @@ public class MouseCamera : MonoBehaviour
     private float Z;
     private float dist_anterior = 0;
     private float camara_ini;
+    private float tope_camara;
 
     private void Start()
     {
@@ -23,13 +24,14 @@ public class MouseCamera : MonoBehaviour
         m_leapController = new Controller();
 
         camara_ini = GetComponent<Camera>().fieldOfView;
-        Debug.Log("CAMARA_INI: " + camara_ini);
+        tope_camara = camara_ini + 10;
+        //Debug.Log("CAMARA_INI: " + camara_ini);
     }
 
     bool Pinching(Hand h)
     {
         if (h == null) return false;
-        return h.PinchStrength > 0.7f;
+        return h.PinchStrength == 1.0f;
     }
 
     void Update()
@@ -40,11 +42,11 @@ public class MouseCamera : MonoBehaviour
         Hand left_hand = null;
         Hand right_hand = null;
 
-        float x_d = 0, y_d = 0, z_d = 0, 
+        float x_d = 0, y_d = 0, z_d = 0,
               x_i = 0, y_i = 0, z_i = 0;
 
         bool closed_left = false, left = false,
-             closed_right = false, right = false; 
+             closed_right = false, right = false;
 
         for (int i = 0; i < f.Hands.Count; ++i)
         {
@@ -69,7 +71,7 @@ public class MouseCamera : MonoBehaviour
             if (Mathf.Abs(pitch) < 0.25F)
                 pitch = 0.0F;
 
-            Debug.Log("GRAB: " + right_hand.GrabStrength);
+            //Debug.Log("GRAB: " + right_hand.GrabStrength);
 
             if (right_hand.GrabStrength < 1)
             {
@@ -91,7 +93,8 @@ public class MouseCamera : MonoBehaviour
             if (left_hand.GrabStrength >= 1)
                 closed_left = true;
         }
-        if (left && right) {
+        if (left && right)
+        {
             float x_2 = (x_d - x_i) * (x_d - x_i),
                   y_2 = (y_d - y_i) * (y_d - y_i),
                   z_2 = (z_d - z_i) * (z_d - z_i);
@@ -100,13 +103,18 @@ public class MouseCamera : MonoBehaviour
             float diff_distancia = distancia - dist_anterior;
             dist_anterior = distancia;
             //Debug.Log("DIST: " + diff_distancia);
-            Debug.Log("CAMARA_INI: " + camara_ini);
+            //Debug.Log("CAMARA_INI: " + camara_ini);
             if (closed_left && closed_right)
             {
-                if (diff_distancia != 0)
-                    GetComponent<Camera>().fieldOfView -= diff_distancia / 10;
+                float camara_actual = GetComponent<Camera>().fieldOfView - diff_distancia / 10;
+
+                if (diff_distancia != 0 && tope_camara >= camara_actual)
+                    GetComponent<Camera>().fieldOfView = camara_actual;
             }
+            //else if (closed_right && Pinching(left_hand))
+            //    GetComponent<Camera>().fieldOfView = camara_ini;
         }
     }
 }
+
 
