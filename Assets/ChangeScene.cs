@@ -8,11 +8,12 @@ public class ChangeScene : MonoBehaviour
 
     Controller m_leapController;
     //Set these Textures in the Inspector
-    public Texture m_MainTexture, m_Normal, m_Metal;
+    public Texture panoramica, sala1, brujas, sala2;
     Renderer m_Renderer;
 
     private float dist_anterior = 0;
     private int indice_imagen = 0;
+    private int numero_texturas = 4;
     private Texture[] vector_imagenes;
 
     // Use this for initialization
@@ -28,12 +29,13 @@ public class ChangeScene : MonoBehaviour
         m_Renderer.material.EnableKeyword("_METALLICGLOSSMAP");
 
         //Set the Texture you assign in the Inspector as the main texture (Or Albedo)
-        m_Renderer.material.SetTexture("_MainTex", m_MainTexture);
+        m_Renderer.material.SetTexture("_MainTex", panoramica);
 
-        vector_imagenes = new Texture[3];
-        vector_imagenes[0] = m_MainTexture;
-        vector_imagenes[1] = m_Normal;
-        vector_imagenes[2] = m_Metal;
+        vector_imagenes = new Texture[numero_texturas];
+        vector_imagenes[0] = panoramica;
+        vector_imagenes[1] = sala1;
+        vector_imagenes[2] = brujas;
+        vector_imagenes[3] = sala2;
     }
 
     // Update is called once per frame
@@ -82,7 +84,7 @@ public class ChangeScene : MonoBehaviour
 
                 if (distancia < 50)
                 {
-                    if (indice_imagen < 2)
+                    if (indice_imagen < (numero_texturas-1))
                         indice_imagen += 1;
                     else
                         indice_imagen = 0;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Leap;
 
 public class MouseCamera : MonoBehaviour
@@ -17,6 +18,7 @@ public class MouseCamera : MonoBehaviour
     private float dist_anterior = 0;
     private float camara_ini;
     private float tope_camara;
+
 
     private void Start()
     {
@@ -85,10 +87,6 @@ public class MouseCamera : MonoBehaviour
         }
         if (left = (left_hand != null))
         {
-
-            
-            //Debug.Log("NORMAL: (" + normal[0] + ", " + normal[1] + ", " + normal[2] + ")");
-
             x_i = left_hand.PalmPosition.x;
             y_i = left_hand.PalmPosition.y;
             z_i = left_hand.PalmPosition.z;
@@ -96,7 +94,6 @@ public class MouseCamera : MonoBehaviour
 
             if (left_hand.GrabStrength >= 1)
                 closed_left = true;
-
         }
         if (left && right)
         {
@@ -111,20 +108,32 @@ public class MouseCamera : MonoBehaviour
             //Debug.Log("CAMARA_INI: " + camara_ini);
 
             Vector normal = left_hand.PalmNormal;
+
             if (normal[1] > 0.8)
             {
                 int extendedFingers = 0;
+
                 for (int i = 0; i < left_hand.Fingers.Count; i++)
                 {
                     Finger digit = left_hand.Fingers[i];
                     if (digit.IsExtended)
                         extendedFingers++;
                 }
+
                 Debug.Log("DEDOS: " + extendedFingers);
 
-                if (extendedFingers == 2)
-                    GetComponent<Camera>().fieldOfView = camara_ini;
-
+                switch (extendedFingers)
+                {
+                    case 1:
+                        break;
+                    case 2:
+                        GetComponent<Camera>().fieldOfView = camara_ini;
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                }
             }
             else if (closed_left && closed_right)
             {
