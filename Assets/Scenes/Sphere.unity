@@ -2017,9 +2017,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vector_imagenes:
   - {fileID: 2800000, guid: 688e904414f8193429c781619f3dfc9e, type: 3}
-  - {fileID: 2800000, guid: 91dd8560699ea4d49a2ab2a8dec76337, type: 3}
-  - {fileID: 2800000, guid: 75f8a7073c28f394ea6dbecadc4fbac2, type: 3}
-  - {fileID: 2800000, guid: f4f81ae70bdb2494089f77a520f8dd48, type: 3}
+  - {fileID: 2800000, guid: ced44dec8096178499f569b44a8a04bc, type: 3}
+  - {fileID: 2800000, guid: cfe31f5cc94fb774797e11d843342075, type: 3}
 --- !u!1001 &1476619789
 Prefab:
   m_ObjectHideFlags: 0
