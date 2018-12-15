@@ -59,6 +59,15 @@ public class ChangeScene : MonoBehaviour
                 right_hand = f.Hands[i];
         }
 
+        // Si la mano principal no es la derecha, intercambiamos el objeto
+        // asignado a las variables left_hand y right_hand
+        if (PlayerPrefs.GetInt("ManoPrincipal") == 1)
+        {
+            Hand aux = right_hand;
+            right_hand = left_hand;
+            left_hand = aux;
+        }
+
         right = (right_hand != null);
         left = (left_hand != null);
 
