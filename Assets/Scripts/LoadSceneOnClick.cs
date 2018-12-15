@@ -24,7 +24,7 @@ public class LoadSceneOnClick : MonoBehaviour
 
         if (ManoDer.isOn)
             PlayerPrefs.SetInt("ManoPrincipal", 0);
-        else if (ManoDer.isOn)
+        else if (ManoIzq.isOn)
             PlayerPrefs.SetInt("ManoPrincipal", 1);
 
 
