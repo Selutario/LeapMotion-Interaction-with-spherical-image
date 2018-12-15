@@ -20,6 +20,7 @@ public class MouseCamera : MonoBehaviour
     private float tope_camara;
 
 
+
     private void Start()
     {
         // Leap init
@@ -27,7 +28,6 @@ public class MouseCamera : MonoBehaviour
 
         camara_ini = GetComponent<Camera>().fieldOfView;
         tope_camara = camara_ini + 10;
-        //Debug.Log("CAMARA_INI: " + camara_ini);
     }
 
     bool Pinching(Hand h)
@@ -56,6 +56,15 @@ public class MouseCamera : MonoBehaviour
                 left_hand = f.Hands[i];
             else if (f.Hands[i].IsRight)
                 right_hand = f.Hands[i];
+        }
+
+        // Si la mano principal no es la derecha, intercambiamos el objeto
+        // asignado a las variables left_hand y right_hand
+        if (PlayerPrefs.GetInt("ManoPrincipal") == 1)
+        {
+            Hand aux = right_hand;
+            right_hand = left_hand;
+            left_hand = aux;
         }
 
         if (right = (right_hand != null))
@@ -132,6 +141,7 @@ public class MouseCamera : MonoBehaviour
                     case 3:
                         break;
                     case 4:
+
                         break;
                 }
             }

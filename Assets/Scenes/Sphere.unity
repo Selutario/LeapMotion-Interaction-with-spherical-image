@@ -2015,10 +2015,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37e10d1726f8cad448ae8a46595f15e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panoramica: {fileID: 2800000, guid: 688e904414f8193429c781619f3dfc9e, type: 3}
-  sala1: {fileID: 2800000, guid: 75f8a7073c28f394ea6dbecadc4fbac2, type: 3}
-  brujas: {fileID: 2800000, guid: f4f81ae70bdb2494089f77a520f8dd48, type: 3}
-  sala2: {fileID: 2800000, guid: 91dd8560699ea4d49a2ab2a8dec76337, type: 3}
+  vector_imagenes:
+  - {fileID: 2800000, guid: 688e904414f8193429c781619f3dfc9e, type: 3}
+  - {fileID: 2800000, guid: 91dd8560699ea4d49a2ab2a8dec76337, type: 3}
+  - {fileID: 2800000, guid: 75f8a7073c28f394ea6dbecadc4fbac2, type: 3}
+  - {fileID: 2800000, guid: f4f81ae70bdb2494089f77a520f8dd48, type: 3}
 --- !u!1001 &1476619789
 Prefab:
   m_ObjectHideFlags: 0
