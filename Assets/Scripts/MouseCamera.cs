@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Leap;
 
@@ -18,11 +19,17 @@ public class MouseCamera : MonoBehaviour
     private float dist_anterior = 0;
     private float camara_ini;
     private float tope_camara;
+    private bool zurdo = false;
 
-
+    private float pos_sec_y = 0;
+    private int contador_anterior = 0;
 
     private void Start()
     {
+        contador_anterior = 0;
+        zurdo = PlayerPrefs.GetInt("ManoPrincipal") == 1;
+        pos_sec_y = 0;
+
         // Leap init
         m_leapController = new Controller();
 
@@ -46,6 +53,7 @@ public class MouseCamera : MonoBehaviour
 
         float x_d = 0, y_d = 0, z_d = 0,
               x_i = 0, y_i = 0, z_i = 0;
+        float deviation = 0.5F;
 
         bool closed_left = false, left = false,
              closed_right = false, right = false;
@@ -60,17 +68,18 @@ public class MouseCamera : MonoBehaviour
 
         // Si la mano principal no es la derecha, intercambiamos el objeto
         // asignado a las variables left_hand y right_hand
-        if (PlayerPrefs.GetInt("ManoPrincipal") == 1)
+        if (zurdo)
         {
             Hand aux = right_hand;
             right_hand = left_hand;
             left_hand = aux;
+            deviation = -deviation;
         }
 
         if (right = (right_hand != null))
         {
             float pitch = right_hand.Direction.Pitch,
-                  yaw = right_hand.Direction.Yaw + 0.5F;
+                  yaw = right_hand.Direction.Yaw + deviation;
 
             x_d = right_hand.PalmPosition.x;
             y_d = right_hand.PalmPosition.y;
@@ -99,7 +108,7 @@ public class MouseCamera : MonoBehaviour
             x_i = left_hand.PalmPosition.x;
             y_i = left_hand.PalmPosition.y;
             z_i = left_hand.PalmPosition.z;
-            //Debug.Log("POS_IZQ: (" + x + ", " + y + ", " + z + ")");
+            //Debug.Log("POS_IZQ: (" + x_i + ", " + y_i + ", " + z_i + ")");
 
             if (left_hand.GrabStrength >= 1)
                 closed_left = true;
@@ -118,9 +127,11 @@ public class MouseCamera : MonoBehaviour
 
             Vector normal = left_hand.PalmNormal;
 
-            if (normal[1] > 0.8)
+            if (normal[1] > 0.85)
             {
                 int extendedFingers = 0;
+                float y_var = y_i - pos_sec_y;
+                pos_sec_y = y_i;
 
                 for (int i = 0; i < left_hand.Fingers.Count; i++)
                 {
@@ -129,7 +140,7 @@ public class MouseCamera : MonoBehaviour
                         extendedFingers++;
                 }
 
-                Debug.Log("DEDOS: " + extendedFingers);
+                //Debug.Log("DEDOS: " + extendedFingers);
 
                 switch (extendedFingers)
                 {
@@ -141,9 +152,18 @@ public class MouseCamera : MonoBehaviour
                     case 3:
                         break;
                     case 4:
-
                         break;
                 }
+
+                if (y_var > 4.0F)
+                    contador_anterior++;
+                else
+                    contador_anterior = 0;
+
+                Debug.Log("CONTADOR: " + contador_anterior);
+
+                if (contador_anterior >= 8)
+                    SceneManager.LoadScene(0);
             }
             else if (closed_left && closed_right)
             {

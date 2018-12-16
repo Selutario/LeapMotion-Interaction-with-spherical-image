@@ -12,12 +12,15 @@ public class ChangeScene : MonoBehaviour
 
     private float dist_anterior = 0;
     private int indice_imagen = 0;
-    private int numero_texturas = 4;
-    public Texture[] vector_imagenes = new Texture[4];
+    private int numero_texturas = 3;
+    private bool zurdo = false;
+    public Texture[] vector_imagenes = new Texture[3];
 
     // Use this for initialization
     void Start()
     {
+        zurdo = PlayerPrefs.GetInt("ManoPrincipal") == 1;
+        
         //Fetch the Renderer from the GameObject
         m_Renderer = GetComponent<Renderer>();
 
@@ -61,7 +64,7 @@ public class ChangeScene : MonoBehaviour
 
         // Si la mano principal no es la derecha, intercambiamos el objeto
         // asignado a las variables left_hand y right_hand
-        if (PlayerPrefs.GetInt("ManoPrincipal") == 1)
+        if (zurdo)
         {
             Hand aux = right_hand;
             right_hand = left_hand;
@@ -91,13 +94,10 @@ public class ChangeScene : MonoBehaviour
 
                 if (distancia < 50)
                 {
-                    if (indice_imagen < (numero_texturas-1))
-                        indice_imagen += 1;
-                    else
-                        indice_imagen = 0;
+                    indice_imagen++;
 
-                    m_Renderer.material.mainTexture = vector_imagenes[indice_imagen];
-                    System.Threading.Thread.Sleep(150);
+                    m_Renderer.material.mainTexture = vector_imagenes[indice_imagen % numero_texturas];
+                    System.Threading.Thread.Sleep(100);
                 }
             }
         }
