@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap;
 
+/**
+ * Controla el cambio de escena en la visualizacion de esfera.
+ */
 public class ChangeScene : MonoBehaviour
 {
 
+    // Atributos
     Controller m_leapController;
     //Set these Textures in the Inspector
     Renderer m_Renderer;
@@ -16,9 +20,10 @@ public class ChangeScene : MonoBehaviour
     private bool zurdo = false;
     public Texture[] vector_imagenes = new Texture[3];
 
-    // Use this for initialization
+    // Inizializacion del vector de imagenes que pueden ser visualizadas.
     void Start()
     {
+        // Comprueba si la mano dominante es zurda
         zurdo = PlayerPrefs.GetInt("ManoPrincipal") == 1;
         
         //Fetch the Renderer from the GameObject
@@ -39,7 +44,7 @@ public class ChangeScene : MonoBehaviour
         // vector_imagenes[0].
     }
 
-    // Update is called once per frame
+    // Update es llamado en cada frame.
     void Update()
     {
         Frame f = m_leapController.Frame();
@@ -74,6 +79,8 @@ public class ChangeScene : MonoBehaviour
         right = (right_hand != null);
         left = (left_hand != null);
 
+        // Detecta las dos manos, obtiene la posicion y si la mano dominante
+        // esta cerrada y la izquierda colisiona contra ella cambia la escena.
         if (left && right)
         {
             x_d = right_hand.PalmPosition.x;

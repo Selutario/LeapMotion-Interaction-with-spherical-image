@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/**
+ * Se encarga de cambiar la escena.
+ */
 public class LoadSceneOnClick : MonoBehaviour
 {
     // Toggles scene

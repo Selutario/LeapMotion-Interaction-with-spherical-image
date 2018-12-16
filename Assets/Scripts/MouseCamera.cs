@@ -5,8 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Leap;
 
+/**
+ * Controla el movimiento de la camara con la mano y detecta los gestos principales.
+ */
 public class MouseCamera : MonoBehaviour
 {
+    // Atributos
     Controller m_leapController;
     bool m_twoHandGrabLastFrame = false;
     public Vector3 m_offset;
@@ -24,6 +28,7 @@ public class MouseCamera : MonoBehaviour
     private float pos_sec_y = 0;
     private int contador_anterior = 0;
 
+    // Inizializacion del leap y la camara.
     private void Start()
     {
         contador_anterior = 0;
