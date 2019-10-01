@@ -1,1 +1,1 @@
-# NPI-Leap
+# Interaction with spherical image using LeapMotion
